@@ -1,19 +1,11 @@
 class Solution {
     public int mySqrt(int x) {
-        if (x == 0 || x == 1) return x;
-
-        int result = 0;
-
-        // Brute-force: try all numbers from 1 up to x/2
-        for (int i = 1; i <= x / 2; i++) {
-            if ((long)i * i == x) { // perfect square
-                return i;
-            } else if ((long)i * i > x) { // exceeded x
-                return i - 1; // previous number is the sqrt rounded down
-            }
-            result = i;
+        int left = 0, right = x, ans = 0;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if ((long)mid * mid <= x) { ans = mid; left = mid + 1; }
+            else right = mid - 1;
         }
-
-        return result;
+        return ans;
     }
 }
