@@ -1,27 +1,27 @@
 class Solution {
     public int thirdMax(int[] nums) {
-        Integer first = null;
-        Integer second = null;
-        Integer third = null;
+        long first = Long.MIN_VALUE;
+        long second = Long.MIN_VALUE;
+        long third = Long.MIN_VALUE;
+        boolean hasFirst = false, hasSecond = false, hasThird = false;
 
-        for (Integer num : nums) {
-            // Skip duplicates
-            if (num.equals(first) || num.equals(second) || num.equals(third)) {
-                continue;
-            }
+        for (int num : nums) {
+            if (hasFirst && num == first) continue;
+            if (hasSecond && num == second) continue;
+            if (hasThird && num == third) continue;
 
-            if (first == null || num > first) {
-                third = second;
-                second = first;
-                first = num;
-            } else if (second == null || num > second) {
-                third = second;
-                second = num;
-            } else if (third == null || num > third) {
-                third = num;
+            if (!hasFirst || num > first) {
+                third = second; hasThird = hasSecond;
+                second = first; hasSecond = hasFirst;
+                first = num; hasFirst = true;
+            } else if (!hasSecond || num > second) {
+                third = second; hasThird = hasSecond;
+                second = num; hasSecond = true;
+            } else if (!hasThird || num > third) {
+                third = num; hasThird = true;
             }
         }
 
-        return third != null ? third : first;
+        return hasThird ? (int) third : (int) first;
     }
 }
