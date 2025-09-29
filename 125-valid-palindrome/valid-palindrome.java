@@ -1,12 +1,18 @@
 class Solution {
     public boolean isPalindrome(String s) {
-        // Remove non-alphanumeric and convert to lowercase
+        // Remove all non-alphanumeric characters (strict) and convert to lowercase
         String cleaned = s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
 
-        // Reverse the cleaned string
-        String reversed = new StringBuilder(cleaned).reverse().toString();
+        // Use two-pointer approach on cleaned string to avoid extra reverse string
+        int left = 0, right = cleaned.length() - 1;
+        while (left < right) {
+            if (cleaned.charAt(left) != cleaned.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
 
-        // Check if original cleaned string equals reversed string
-        return cleaned.equals(reversed);
+        return true;
     }
 }
