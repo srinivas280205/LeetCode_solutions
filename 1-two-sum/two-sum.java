@@ -1,17 +1,23 @@
+import java.util.HashMap;
+
 class Solution {
     public int[] twoSum(int[] nums, int target) {
-    
-        // Try every possible pair (i, j)
+        // HashMap to store number -> index
+        HashMap<Integer, Integer> map = new HashMap<>();
+        
         for (int i = 0; i < nums.length; i++) {
-            for (int j = i + 1; j < nums.length; j++) {
-                if (nums[i] + nums[j] == target) {
-                    return new int[] { i, j };
-                }
+            int complement = target - nums[i];
+            
+            // If complement exists, return the pair of indices
+            if (map.containsKey(complement)) {
+                return new int[] { map.get(complement), i };
             }
+            
+            // Store current number with its index
+            map.put(nums[i], i);
         }
-        // problem guarantees exactly one solution, so this won't be reached
+        
+        // Since one solution always exists, this won't be reached
         return new int[] {};
     }
 }
-
-        
