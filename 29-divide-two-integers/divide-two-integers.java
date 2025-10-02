@@ -4,29 +4,37 @@ class Solution {
         if (dividend == Integer.MIN_VALUE && divisor == -1) {
             return Integer.MAX_VALUE;
         }
-        
-        // Determine sign of result
+
+        // Determine sign
         boolean negative = (dividend < 0) ^ (divisor < 0);
-        
-        // Convert to long and work with absolute values
+
         long a = Math.abs((long) dividend);
         long b = Math.abs((long) divisor);
-        
+
         int result = 0;
-        
-        while (a >= b) {
-            long temp = b, multiple = 1;
-            
-            // Double temp until it's just <= a
-            while (a >= (temp << 1)) {
-                temp <<= 1;
-                multiple <<= 1;
-            }
-            
-            a -= temp;
-            result += multiple;
+
+        // Precompute all doubles of divisor up to dividend
+        long[] doubles = new long[32];
+        int[] multiples = new int[32];
+        int i = 0;
+
+        doubles[i] = b;
+        multiples[i] = 1;
+
+        while (doubles[i] <= a - doubles[i]) { // prevent overflow
+            doubles[i + 1] = doubles[i] << 1;
+            multiples[i + 1] = multiples[i] << 1;
+            i++;
         }
-        
+
+        // Work backwards to subtract the largest possible multiples
+        for (int j = i; j >= 0; j--) {
+            if (a >= doubles[j]) {
+                a -= doubles[j];
+                result += multiples[j];
+            }
+        }
+
         return negative ? -result : result;
     }
 }
