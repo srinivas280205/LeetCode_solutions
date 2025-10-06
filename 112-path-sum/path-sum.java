@@ -1,34 +1,29 @@
-import java.util.*;
-
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
     public boolean hasPathSum(TreeNode root, int targetSum) {
         if (root == null) return false;
 
-        Queue<TreeNode> nodeQueue = new LinkedList<>();
-        Queue<Integer> sumQueue = new LinkedList<>();
-
-        nodeQueue.offer(root);
-        sumQueue.offer(root.val);
-
-        while (!nodeQueue.isEmpty()) {
-            TreeNode current = nodeQueue.poll();
-            int currentSum = sumQueue.poll();
-
-            // Check if it's a leaf with a matching sum
-            if (current.left == null && current.right == null && currentSum == targetSum) {
-                return true;
-            }
-
-            if (current.left != null) {
-                nodeQueue.offer(current.left);
-                sumQueue.offer(currentSum + current.left.val);
-            }
-            if (current.right != null) {
-                nodeQueue.offer(current.right);
-                sumQueue.offer(currentSum + current.right.val);
-            }
+        // If we reach a leaf node, check if the path sum equals targetSum
+        if (root.left == null && root.right == null) {
+            return root.val == targetSum;
         }
 
-        return false;
+        // Recurse down left and right with updated targetSum
+        int remaining = targetSum - root.val;
+        return hasPathSum(root.left, remaining) || hasPathSum(root.right, remaining);
     }
 }
