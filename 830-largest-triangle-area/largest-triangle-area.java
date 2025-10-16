@@ -2,7 +2,6 @@ class Solution {
     public double largestTriangleArea(int[][] points) {
         double maxArea = 0.0;
         int n = points.length;
-        
         for (int i = 0; i < n; i++) {
             for (int j = i + 1; j < n; j++) {
                 for (int k = j + 1; k < n; k++) {
