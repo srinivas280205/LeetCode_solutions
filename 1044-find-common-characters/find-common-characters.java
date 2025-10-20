@@ -14,6 +14,7 @@ class Solution {
             // Update minFreq: keep the minimum frequency across all words
             for (int i = 0; i < 26; i++) {
            
+          
                 minFreq[i] = Math.min(minFreq[i], freq[i]);
             }
         }
