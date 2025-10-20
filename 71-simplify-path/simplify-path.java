@@ -2,7 +2,7 @@ import java.util.*;
 
 class Solution {
     public String simplifyPath(String path) {
-        // Split path by "/" to get tokens
+        // Split by "/" to get components
         String[] parts = path.split("/");
         Deque<String> stack = new ArrayDeque<>();
 
@@ -11,7 +11,7 @@ class Solution {
                 // Skip empty or current directory
                 continue;
             } else if (part.equals("..")) {
-                // Move up one directory (if possible)
+                // Go up one directory if possible
                 if (!stack.isEmpty()) {
                     stack.pop();
                 }
@@ -21,13 +21,13 @@ class Solution {
             }
         }
 
-        // Build the canonical path
+        // Build canonical path from stack
         if (stack.isEmpty()) {
             return "/";
         }
 
         StringBuilder result = new StringBuilder();
-        // Stack is reversed (LIFO), so build from bottom to top
+        // Since stack is LIFO, build the path in reverse order
         while (!stack.isEmpty()) {
             result.insert(0, "/" + stack.pop());
         }
