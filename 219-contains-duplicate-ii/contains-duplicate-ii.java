@@ -1,17 +1,21 @@
-import java.util.HashSet;
-import java.util.Set;
-
-public class Solution {
+class Solution {
     public boolean containsNearbyDuplicate(int[] nums, int k) {
-        if (nums == null || nums.length < 2 || k <= 0) return false;
-        Set<Integer> window = new HashSet<>();
+        // HashMap to store each number and its last seen index
+        Map<Integer, Integer> map = new HashMap<>();
+        
         for (int i = 0; i < nums.length; i++) {
-            if (window.contains(nums[i])) return true;
-            window.add(nums[i]);
-            if (window.size() > k) {
-                window.remove(nums[i - k]);
+            if (map.containsKey(nums[i])) {
+                int prevIndex = map.get(nums[i]);
+                // Check if the distance between indices is <= k
+                if (i - prevIndex <= k) {
+                    return true;
+                }
             }
+            // Update or add the current number's index
+            map.put(nums[i], i);
         }
+        
+        // No duplicates found within distance k
         return false;
     }
 }
