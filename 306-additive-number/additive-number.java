@@ -22,9 +22,10 @@ class Solution {
                 int k = j;
 
                 while (k < n) {
-                    BigInteger z = x.add(y);      // BigInteger sum
-                    String zStr = z.toString();   // Compare as string
+                    BigInteger z = x.add(y);
+                    String zStr = z.toString();
 
+                    // Check if the next number in the string starts with this sum
                     if (!num.startsWith(zStr, k)) {
                         break;
                     }
